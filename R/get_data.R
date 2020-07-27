@@ -13,6 +13,16 @@
 #' @importFrom httr VERB progress
 #' @importFrom utils read.table
 #'
+#' @examples
+#' get_data(list_data = list(Scientificname = c("Manilkara maxima"),
+#'                           MaxRecords = 5))
+#' \dontrun{
+#' get_data(list_data = list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),
+#'                           StateProvince = c("São Paulo","Rio de Janeiro","Pernambuco"),
+#'                           MaxRecords = 5,
+#'                           Model = "Coords"))
+#'                           }
+#'
 #' @export
 get_data <- function(list_data){
 
@@ -20,9 +30,9 @@ get_data <- function(list_data){
   url <- "https://api.splink.org.br/records"
 
   # para testes de desenvolvimento
-  list_data <- list(Scientificname = c("Manilkara maxima"),
-             StateProvince = c("Bahia"),
-             Synonyms = "flora2020")
+  # list_data <- list(Scientificname = c("Manilkara maxima"),
+  #            StateProvince = c("Bahia"),
+  #            Synonyms = "flora2020")
 
   # baixando os dados do splink
   get_rec <-

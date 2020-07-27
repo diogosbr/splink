@@ -10,6 +10,17 @@
 #'
 #' @importFrom plyr compact
 #'
+#' @examples
+#' setup_list(ScientificName = "Manilkara maxima")
+#'
+#' \dontrun{
+#' setup_list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),
+#'            StateProvince = c("São Paulo","Rio de Janeiro","Pernambuco"),
+#'            MaxRecords = 5,
+#'            Model = "Coords")
+#'            }
+#'
+#'
 #' @export
 setup_list <- function(Barcode = NULL,
                      BasisOfRecord = NULL,

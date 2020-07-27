@@ -18,3 +18,14 @@ faz download dos dados do splink com base na requisição
 \details{
 https://api.splink.org.br/
 }
+\examples{
+get_data(list_data = list(Scientificname = c("Manilkara maxima"),
+                          MaxRecords = 5))
+\dontrun{
+get_data(list_data = list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),
+                          StateProvince = c("São Paulo","Rio de Janeiro","Pernambuco"),
+                          MaxRecords = 5,
+                          Model = "Coords"))
+                          }
+
+}
