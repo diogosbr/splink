@@ -1,15 +1,18 @@
 Package: splink
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Interface to the speciesLink API
+Version: 0.0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Diogo",
+           family = "Rocha",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+           email = "diogosbr@gmail.com",
+           comment = c(ORCID = "0000-0003-2913-4072"))
+Description: A programmatic interface to the Web Service methods provided by the speciesLink ('splink'; <https://api.splink.org.br/>).
 License: MIT + file LICENSE
 Encoding: UTF-8
+Imports:
+    httr,
+    plyr
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

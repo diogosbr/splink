@@ -6,9 +6,12 @@
 #'
 #' @param list_data lista com os parâmetros a serem baixados
 #'
+#' @details https://api.splink.org.br/
+#'
 #' @return list
 #'
-#' @importFrom httr VERB
+#' @importFrom httr VERB progress
+#' @importFrom utils read.table
 #'
 #' @export
 get_data <- function(list_data){
@@ -27,7 +30,7 @@ get_data <- function(list_data){
       verb = "POST", url = url,
       body = list_data,
       encode = "json",
-      config = progress()
+      config = httr::progress()
     )
 
   # convert response object to text
@@ -42,6 +45,5 @@ get_data <- function(list_data){
   # convertendo o texto em tabela
   res_table <- read.table(text = get_text, sep = '\t', header = TRUE, quote = "", stringsAsFactors = F)
 
-  head(res_table)
   return(res_table)
 }
