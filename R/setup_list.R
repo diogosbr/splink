@@ -4,9 +4,48 @@
 #'
 #' @description cria uma lista para busca
 #'
-#' @param ScientificName vetor com os nomes das espécies
+#' @param Barcode .
+#' @param BasisOfRecord .
+#' @param InstitutionCode string. Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".
+#' @param CollectionCode string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".
+#' @param CatalogNumber numeric. 	Number of specimen in the collection. Also accepts 'embranco' or "naobranco". "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
+#' @param Collector string. Collector name. Ex:	"Kock", "Almeida F".
+#' @param CollectorNumber numeric.
+#' @param YearCollected numeric. Year of specimen was collected with four-digits.
+#' @param IdentifiedBy string. Who identified the species of specimen. Ex: "Abreu MC"
+#' @param YearIdentified numeric. Year of specimen was identified with four-digits.
+#' @param Kingdom .
+#' @param Phylum .
+#' @param Class .
+#' @param Order .
+#' @param Family .
+#' @param Genus .
+#' @param ScientificName .
+#' @param TypeStatus .
+#' @param Country .
+#' @param StateProvince .
+#' @param County .
+#' @param Locality .
+#'
+#' @param CoordinatesQuality Good | Bad	 any coordinates
+#' @param Format JSON | XML | CSV | TAB
+#' @param Separator comma | semicolon	Valid only for Format = CSV
+#' @param MaxRecords n > 0	 all records
+#' @param Model DwC | modelling
+#' @param Phonetic Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
+#' @param RedList Yes | No	  no check
+#' @param Scope plants, animals, microrganisms,fossils	 all groups
+#' @param Coordinates Yes | No | Original | Automatic | Blocked	  no check
+#' @param Images Yes | No | Live | Polen | Wood	  no check
+#' @param Synonyms sp2000 | flora2020 | MycoBank | AlgaeBase | DSMZ | Moure   no synonyms
+#' @param Typus Yes | No 	  no check
+#' @param ShowEmptyValues Yes | No
+#' @param fieldsCase Lower | Upper | Mixed
+#' @param Summary Yes | No
 #'
 #' @return list
+#'
+#' @details To more information about fields see <https://api.splink.org.br/> or <>
 #'
 #' @importFrom plyr compact
 #'
@@ -19,7 +58,6 @@
 #'            MaxRecords = 5,
 #'            Model = "Coords")
 #'            }
-#'
 #'
 #' @export
 setup_list <- function(Barcode = NULL,

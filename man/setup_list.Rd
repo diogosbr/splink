@@ -45,13 +45,88 @@ setup_list(
 )
 }
 \arguments{
-\item{ScientificName}{vetor com os nomes das espécies}
+\item{Barcode}{.}
+
+\item{BasisOfRecord}{.}
+
+\item{InstitutionCode}{string. Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".}
+
+\item{CollectionCode}{string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".}
+
+\item{CatalogNumber}{numeric.     Number of specimen in the collection. Also accepts 'embranco' or "naobranco". "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.}
+
+\item{Collector}{string. Collector name. Ex:    "Kock", "Almeida F".}
+
+\item{CollectorNumber}{numeric.}
+
+\item{YearCollected}{numeric. Year of specimen was collected with four-digits.}
+
+\item{IdentifiedBy}{string. Who identified the species of specimen. Ex: "Abreu MC"}
+
+\item{YearIdentified}{numeric. Year of specimen was identified with four-digits.}
+
+\item{Kingdom}{.}
+
+\item{Phylum}{.}
+
+\item{Class}{.}
+
+\item{Order}{.}
+
+\item{Family}{.}
+
+\item{Genus}{.}
+
+\item{ScientificName}{.}
+
+\item{TypeStatus}{.}
+
+\item{Country}{.}
+
+\item{StateProvince}{.}
+
+\item{County}{.}
+
+\item{Locality}{.}
+
+\item{CoordinatesQuality}{Good | Bad     any coordinates}
+
+\item{Format}{JSON | XML | CSV | TAB}
+
+\item{Separator}{comma | semicolon    Valid only for Format = CSV}
+
+\item{MaxRecords}{n > 0     all records}
+
+\item{Model}{DwC | modelling}
+
+\item{Phonetic}{Yes | No      affects only taxonomic fields: class, phylum, order, family, genus, scientificname}
+
+\item{RedList}{Yes | No      no check}
+
+\item{Scope}{plants, animals, microrganisms,fossils     all groups}
+
+\item{Coordinates}{Yes | No | Original | Automatic | Blocked      no check}
+
+\item{Images}{Yes | No | Live | Polen | Wood      no check}
+
+\item{Synonyms}{sp2000 | flora2020 | MycoBank | AlgaeBase | DSMZ | Moure   no synonyms}
+
+\item{Typus}{Yes | No       no check}
+
+\item{ShowEmptyValues}{Yes | No}
+
+\item{fieldsCase}{Lower | Upper | Mixed}
+
+\item{Summary}{Yes | No}
 }
 \value{
 list
 }
 \description{
 cria uma lista para busca
+}
+\details{
+To more informations see \url{https://api.splink.org.br/}
 }
 \examples{
 setup_list(ScientificName = "Manilkara maxima")
@@ -62,6 +137,5 @@ setup_list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),
            MaxRecords = 5,
            Model = "Coords")
            }
-
 
 }
