@@ -7,7 +7,7 @@
 get_data(list_data)
 }
 \arguments{
-\item{list_data}{lista com os parâmetros a serem baixados}
+\item{list_data}{list. Object returned by \code{setup_list()}, or a named list with parameters to request download.}
 }
 \value{
 list

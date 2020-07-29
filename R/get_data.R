@@ -4,7 +4,7 @@
 #'
 #' @description faz download dos dados do splink com base na requisição
 #'
-#' @param list_data lista com os parâmetros a serem baixados
+#' @param list_data list. Object returned by `setup_list()`, or a named list with parameters to request download.
 #'
 #' @details https://api.splink.org.br/
 #'
@@ -43,8 +43,17 @@ get_data <- function(list_data){
       config = httr::progress()
     )
 
+  ################################
+  # incluir salvar um metadado   #
+  # pode ser a partir do get_rec #
+  ################################
+
   # convert response object to text
   get_text <- httr::content(get_rec, "text")
+
+  # check if exists downloaded data
+  if(substring(get_rec,1,3) != 'seq'){
+    stop("You search returned no data. Check your list.")}
 
   # caracteres que podem causar erro na leitura
   bad_character <- intToUtf8(c(91, 62, 33, 180, 60, 35, 63, 38, 47, 92, 46, 93))
