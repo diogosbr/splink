@@ -49,7 +49,7 @@ setup_list(
 
 \item{BasisOfRecord}{.}
 
-\item{InstitutionCode}{string. Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".}
+\item{InstitutionCode}{Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".}
 
 \item{CollectionCode}{string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".}
 
@@ -95,7 +95,8 @@ setup_list(
 
 \item{Separator}{especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?}
 
-\item{MaxRecords}{numeric. Especificar o número máximo de registros devem ser retornados # POR ESPÉCIE? ##. O default é retornar todos os registros. # criar um check para n > 0.     all records}
+\item{MaxRecords}{numeric. Especificar o número máximo de registros geral devem ser retornados. O default é retornar todos os registros. See details for more information
+criar um check para n > 0.     all records}
 
 \item{Model}{DwC | modelling}
 
@@ -106,9 +107,9 @@ Yes | No      affects only taxonomic fields: class, phylum, order, family, genus
 
 \item{Scope}{plants, animals, microrganisms,fossils     all groups}
 
-\item{Coordinates}{Yes | No | Original | Automatic | Blocked      no check}
+\item{Coordinates}{choose if will to do download the registers with coordinates. See details for available opitions.}
 
-\item{Images}{Yes | No | Live | Polen | Wood      no check}
+\item{Images}{If "yes", search the records that contain images of the specimen. Or NULL to search all record. For more options see Details.}
 
 \item{Synonyms}{Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR}
 
@@ -128,7 +129,11 @@ cria uma lista para busca
 }
 \details{
 For more information about fields see \url{https://api.splink.org.br/} or \url{http://www.splink.org.br/}.
-Nos campos \strong{buscadores} são aceitos valores 'embranco' ou 'naobranco'.
+Nos campos \strong{buscadores} são aceitos valores 'embranco' ou 'naobranco'. Por exemplo: é possível buscar apenas os registros de um gênero que não tenha sido identificado ainda, para isso deve-se informar no campo \code{ScientificName} "Manilkara embranco" (para o gênero Manilkara). Em caso de querer apenas os registros de um gênero que tenha identificação deve-se informar "Manilkara naobranco". No caso de querer todos os registros de um gênero, basta colocar "Manilkara".
+Coordinates:  Yes | No | Original | Automatic | Blocked	  no check.
+The complete list of barcode e etc are available with \code{xxx()} (not implemented yet) function.
+Attention, because the \code{MaxRecords} refers to the total number of records, in case of searching for more than one species it may be that records of only one species are returned. This depends on the number of records per species and the maximum number of records requested.
+To the Images argument, the options are "yes" for records with images, "no" for records without images, "live" for records with images of living material, "pollen" for records with images of pollen, "wood" for images of wood (Xylotheque) and NULL to search all records.
 }
 \examples{
 setup_list(ScientificName = "Manilkara maxima")

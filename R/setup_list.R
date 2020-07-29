@@ -6,7 +6,7 @@
 #'
 #' @param Barcode .
 #' @param BasisOfRecord .
-#' @param InstitutionCode string. Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".
+#' @param InstitutionCode Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".
 #' @param CollectionCode string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".
 #' @param CatalogNumber numeric. 	Number of specimen in the collection. Also accepts 'embranco' or "naobranco". "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
 #' @param Collector string. Collector name. Ex:	"Kock", "Almeida F".
@@ -30,14 +30,15 @@
 #' @param CoordinatesQuality Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.
 #' @param Format JSON | XML | CSV | TAB ## MANTER?
 #' @param Separator especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?
-#' @param MaxRecords numeric. Especificar o número máximo de registros devem ser retornados # POR ESPÉCIE? ##. O default é retornar todos os registros. # criar um check para n > 0.	 all records
-#' @param Model DwC | modelling
-#' @param Phonetic Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `filo`, `classe`, `ordem`, `família` e `nome científico`.
+#' @param MaxRecords numeric. Especificar o número máximo de registros geral devem ser retornados. O default é retornar todos os registros. See details for more information
+#' criar um check para n > 0.	 all records
+#' @param Model Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)
+#' @param Phonetic Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `Phylum`, `Class`, `Order`, `Family` e `ScientificName`.
 #'  Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
 #' @param RedList Yes | No	  no check
 #' @param Scope plants, animals, microrganisms,fossils	 all groups
-#' @param Coordinates Yes | No | Original | Automatic | Blocked	  no check
-#' @param Images Yes | No | Live | Polen | Wood	  no check
+#' @param Coordinates choose if will to do download the registers with coordinates. See details for available opitions.
+#' @param Images If "yes", search the records that contain images of the specimen. Or NULL to search all record. For more options see Details.
 #' @param Synonyms Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR
 #' @param Typus Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No *no check*
 #' @param ShowEmptyValues Yes | *No*
@@ -47,7 +48,11 @@
 #' @return list
 #'
 #' @details For more information about fields see <https://api.splink.org.br/> or <http://www.splink.org.br/>.
-#' Nos campos **buscadores** são aceitos valores 'embranco' ou 'naobranco'.
+#' Nos campos **buscadores** são aceitos valores 'embranco' ou 'naobranco'. Por exemplo: é possível buscar apenas os registros de um gênero que não tenha sido identificado ainda, para isso deve-se informar no campo `ScientificName` "Manilkara embranco" (para o gênero Manilkara). Em caso de querer apenas os registros de um gênero que tenha identificação deve-se informar "Manilkara naobranco". No caso de querer todos os registros de um gênero, basta colocar "Manilkara".
+#' Coordinates:  Yes | No | Original | Automatic | Blocked	  no check.
+#' The complete list of barcode e etc are available with `xxx()` (not implemented yet) function.
+#' Attention, because the `MaxRecords` refers to the total number of records, in case of searching for more than one species it may be that records of only one species are returned. This depends on the number of records per species and the maximum number of records requested.
+#' To the Images argument, the options are "yes" for records with images, "no" for records without images, "live" for records with images of living material, "pollen" for records with images of pollen, "wood" for images of wood (Xylotheque) and NULL to search all records.
 #'
 #' @importFrom plyr compact
 #'
