@@ -27,7 +27,7 @@ setup_list(
   StateProvince = NULL,
   County = NULL,
   Locality = NULL,
-  CoordinatesQuality = NULL,
+  CoordinatesQuality = "any",
   Format = NULL,
   Separator = NULL,
   MaxRecords = NULL,
@@ -77,7 +77,7 @@ setup_list(
 
 \item{Genus}{.}
 
-\item{ScientificName}{.}
+\item{ScientificName}{vector. Accepts a vector of names.}
 
 \item{TypeStatus}{.}
 
@@ -89,17 +89,18 @@ setup_list(
 
 \item{Locality}{.}
 
-\item{CoordinatesQuality}{Good | Bad     any coordinates}
+\item{CoordinatesQuality}{Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.}
 
-\item{Format}{JSON | XML | CSV | TAB}
+\item{Format}{JSON | XML | CSV | TAB ## MANTER?}
 
-\item{Separator}{comma | semicolon    Valid only for Format = CSV}
+\item{Separator}{especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?}
 
-\item{MaxRecords}{n > 0     all records}
+\item{MaxRecords}{numeric. Especificar o número máximo de registros devem ser retornados # POR ESPÉCIE? ##. O default é retornar todos os registros. # criar um check para n > 0.     all records}
 
 \item{Model}{DwC | modelling}
 
-\item{Phonetic}{Yes | No      affects only taxonomic fields: class, phylum, order, family, genus, scientificname}
+\item{Phonetic}{Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em \code{filo}, \code{classe}, \code{ordem}, \code{família} e \verb{nome científico}.
+Yes | No      affects only taxonomic fields: class, phylum, order, family, genus, scientificname}
 
 \item{RedList}{Yes | No      no check}
 
@@ -109,15 +110,15 @@ setup_list(
 
 \item{Images}{Yes | No | Live | Polen | Wood      no check}
 
-\item{Synonyms}{sp2000 | flora2020 | MycoBank | AlgaeBase | DSMZ | Moure   no synonyms}
+\item{Synonyms}{Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR}
 
-\item{Typus}{Yes | No       no check}
+\item{Typus}{Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No \emph{no check}}
 
-\item{ShowEmptyValues}{Yes | No}
+\item{ShowEmptyValues}{Yes | \emph{No}}
 
-\item{fieldsCase}{Lower | Upper | Mixed}
+\item{fieldsCase}{Lower | Upper | \emph{Mixed}}
 
-\item{Summary}{Yes | No}
+\item{Summary}{Yes | \emph{No}}
 }
 \value{
 list
@@ -126,7 +127,8 @@ list
 cria uma lista para busca
 }
 \details{
-To more informations see \url{https://api.splink.org.br/}
+For more information about fields see \url{https://api.splink.org.br/} or \url{http://www.splink.org.br/}.
+Nos campos \strong{buscadores} são aceitos valores 'embranco' ou 'naobranco'.
 }
 \examples{
 setup_list(ScientificName = "Manilkara maxima")

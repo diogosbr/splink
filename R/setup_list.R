@@ -20,32 +20,34 @@
 #' @param Order .
 #' @param Family .
 #' @param Genus .
-#' @param ScientificName .
+#' @param ScientificName vector. Accepts a vector of names.
 #' @param TypeStatus .
 #' @param Country .
 #' @param StateProvince .
 #' @param County .
 #' @param Locality .
 #'
-#' @param CoordinatesQuality Good | Bad	 any coordinates
-#' @param Format JSON | XML | CSV | TAB
-#' @param Separator comma | semicolon	Valid only for Format = CSV
-#' @param MaxRecords n > 0	 all records
+#' @param CoordinatesQuality Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.
+#' @param Format JSON | XML | CSV | TAB ## MANTER?
+#' @param Separator especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?
+#' @param MaxRecords numeric. Especificar o número máximo de registros devem ser retornados # POR ESPÉCIE? ##. O default é retornar todos os registros. # criar um check para n > 0.	 all records
 #' @param Model DwC | modelling
-#' @param Phonetic Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
+#' @param Phonetic Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `filo`, `classe`, `ordem`, `família` e `nome científico`.
+#'  Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
 #' @param RedList Yes | No	  no check
 #' @param Scope plants, animals, microrganisms,fossils	 all groups
 #' @param Coordinates Yes | No | Original | Automatic | Blocked	  no check
 #' @param Images Yes | No | Live | Polen | Wood	  no check
-#' @param Synonyms sp2000 | flora2020 | MycoBank | AlgaeBase | DSMZ | Moure   no synonyms
-#' @param Typus Yes | No 	  no check
-#' @param ShowEmptyValues Yes | No
-#' @param fieldsCase Lower | Upper | Mixed
-#' @param Summary Yes | No
+#' @param Synonyms Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR
+#' @param Typus Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No *no check*
+#' @param ShowEmptyValues Yes | *No*
+#' @param fieldsCase Lower | Upper | *Mixed*
+#' @param Summary Yes | *No*
 #'
 #' @return list
 #'
-#' @details To more information about fields see <https://api.splink.org.br/> or <>
+#' @details For more information about fields see <https://api.splink.org.br/> or <http://www.splink.org.br/>.
+#' Nos campos **buscadores** são aceitos valores 'embranco' ou 'naobranco'.
 #'
 #' @importFrom plyr compact
 #'
@@ -61,45 +63,53 @@
 #'
 #' @export
 setup_list <- function(Barcode = NULL,
-                     BasisOfRecord = NULL,
-                     InstitutionCode = NULL,
-                     CollectionCode = NULL,
-                     CatalogNumber = NULL,
-                     Collector = NULL,
-                     CollectorNumber = NULL,
-                     YearCollected = NULL,
-                     IdentifiedBy = NULL,
-                     YearIdentified = NULL,
-                     Kingdom = NULL,
-                     Phylum = NULL,
-                     Class = NULL,
-                     Order = NULL,
-                     Family = NULL,
-                     Genus = NULL,
-                     ScientificName = NULL,
-                     TypeStatus = NULL,
-                     Country = NULL,
-                     StateProvince = NULL,
-                     County = NULL,
-                     Locality = NULL,
+                       BasisOfRecord = NULL,
+                       InstitutionCode = NULL,
+                       CollectionCode = NULL,
+                       CatalogNumber = NULL,
+                       Collector = NULL,
+                       CollectorNumber = NULL,
+                       YearCollected = NULL,
+                       IdentifiedBy = NULL,
+                       YearIdentified = NULL,
+                       Kingdom = NULL,
+                       Phylum = NULL,
+                       Class = NULL,
+                       Order = NULL,
+                       Family = NULL,
+                       Genus = NULL,
+                       ScientificName = NULL,
+                       TypeStatus = NULL,
+                       Country = NULL,
+                       StateProvince = NULL,
+                       County = NULL,
+                       Locality = NULL,
 
-                     # modifiers
-                     CoordinatesQuality = NULL,
-                     Format = NULL,
-                     Separator = NULL,
-                     MaxRecords = NULL,
-                     Model = NULL,
-                     Phonetic = NULL,
-                     RedList = NULL,
-                     Scope = NULL,
-                     Coordinates = NULL,
-                     Images = NULL,
-                     Synonyms = NULL,
-                     Typus = NULL,
-                     ShowEmptyValues = NULL,
-                     fieldsCase = NULL,
-                     Summary = NULL
-                     ){
+                       # modifiers
+                       CoordinatesQuality = "any",
+                       Format = NULL,
+                       Separator = NULL,
+                       MaxRecords = NULL,
+                       Model = NULL,
+                       Phonetic = NULL,
+                       RedList = NULL,
+                       Scope = NULL,
+                       Coordinates = NULL,
+                       Images = NULL,
+                       Synonyms = NULL,
+                       Typus = NULL,
+                       ShowEmptyValues = NULL,
+                       fieldsCase = NULL,
+                       Summary = NULL
+){
+
+  ## IMPLEMENTAR CHECKS ##
+  # se foi informado algum dos campos obrigatórios, que são os *buscadores*
+  #
+
+  ##==============##
+  ## *buscadores* ##
+  ##==============##
 
   if(!is.null(Barcode)) Barcode = Barcode
   if(!is.null(BasisOfRecord)) BasisOfRecord = BasisOfRecord
@@ -124,7 +134,19 @@ setup_list <- function(Barcode = NULL,
   if(!is.null(County)) County = County
   if(!is.null(Locality)) Locality = Locality
 
-  if(!is.null(CoordinatesQuality)) CoordinatesQuality = CoordinatesQuality
+  ##===========##
+  ## modifiers ##
+  ##===========##
+
+  # check if are valid values in CoordinatesQuality
+  if(any(CoordinatesQuality %in% c("any", "Good", "Bad"))) {
+    if(CoordinatesQuality == "any") {CoordinatesQuality <- NULL} else{
+      CoordinatesQuality = CoordinatesQuality
+    }
+  } else{
+    stop("Invalid value for CoordinatesQuality. The accepted values are 'Good, 'Bad or 'any'.")
+  }
+
   if(!is.null(Format)) Format = Format
   if(!is.null(Separator)) Separator = Separator
   if(!is.null(MaxRecords)) MaxRecords = MaxRecords
@@ -142,6 +164,7 @@ setup_list <- function(Barcode = NULL,
   if(!is.null(Summary)) Summary = Summary
 
 
+  # creating the list to request data in the API
   list_data <- list(
     Barcode = Barcode,
     BasisOfRecord = BasisOfRecord,
@@ -184,12 +207,8 @@ setup_list <- function(Barcode = NULL,
     Summary = Summary
   )
 
+  # removing values not used
   list_data <- plyr::compact(list_data)
-  # list_data <- list(Scientificname = Scientificname,
-  #                   StateProvince = StateProvince,
-  #                   Synonyms = Synonyms,
-  #                   CollectionCode = CollectionCode,
-  #                   County = County)
 
   return(list_data)
 }
