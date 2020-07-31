@@ -1,44 +1,42 @@
-#' @title criar lista de espécies
+#' @title Create a list object to request download of species register
 #'
 #' @name setup_list
 #'
-#' @description cria uma lista para busca
+#' @description This function prepare a list to request download of species register with the `get_data` function.
 #'
-#' @param Barcode .
+#' @param Barcode Barcode of specimen in a collection
 #' @param BasisOfRecord .
-#' @param InstitutionCode Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".
-#' @param CollectionCode string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".
-#' @param CatalogNumber numeric. 	Number of specimen in the collection. Also accepts 'embranco' or "naobranco". "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
-#' @param Collector string. Collector name. Ex:	"Kock", "Almeida F".
-#' @param CollectorNumber numeric.
-#' @param YearCollected numeric. Year of specimen was collected with four-digits.
-#' @param IdentifiedBy string. Who identified the species of specimen. Ex: "Abreu MC"
-#' @param YearIdentified numeric. Year of specimen was identified with four-digits.
-#' @param Kingdom .
-#' @param Phylum .
-#' @param Class .
-#' @param Order .
-#' @param Family .
-#' @param Genus .
-#' @param ScientificName vector. Accepts a vector of names.
+#' @param CollectionCode Collection acronym to search. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".
+#' @param CatalogNumber Register number of specimen in the collection.
+#' @param Collector Collector name. Ex:	"Kock", "Almeida F".
+#' @param CollectorNumber Collector number.
+#' @param YearCollected Year of specimen was collected with four-digits.
+#' @param IdentifiedBy Who identified the species of specimen. Ex: "Abreu MC".
+#' @param YearIdentified Year of specimen was identified with four-digits.
+#' @param Kingdom Kingdom classification name.
+#' @param Phylum Phylum classification name.
+#' @param Class Class classification name.
+#' @param Order Order classification name.
+#' @param Family Family classification name.
+#' @param Genus Genus classification name.
+#' @param ScientificName A character vector with scientific name, without authors. Accepts a vector of names. If you want include synonym taxa use `Synonyms` argument. See details to use 'embranco' or "naobranco" options.
 #' @param TypeStatus .
-#' @param Country .
-#' @param StateProvince .
-#' @param County .
-#' @param Locality .
+#' @param Country Country of specimen register.
+#' @param StateProvince State of specimen register.
+#' @param County City of specimen register.
+#' @param Locality Locality of specimen register. This field is very dificult to return with precision because it is a free form field.
 #'
 #' @param CoordinatesQuality Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.
 #' @param Format JSON | XML | CSV | TAB ## MANTER?
 #' @param Separator especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?
-#' @param MaxRecords numeric. Especificar o número máximo de registros geral devem ser retornados. O default é retornar todos os registros. See details for more information
-#' criar um check para n > 0.	 all records
+#' @param MaxRecords numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.
 #' @param Model Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)
 #' @param Phonetic Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `Phylum`, `Class`, `Order`, `Family` e `ScientificName`.
 #'  Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
 #' @param RedList Yes | No	  no check
-#' @param Scope plants, animals, microrganisms,fossils	 all groups
-#' @param Coordinates choose if will to do download the registers with coordinates. See details for available opitions.
-#' @param Images If "yes", search the records that contain images of the specimen. Or NULL to search all record. For more options see Details.
+#' @param Scope Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).
+#' @param Coordinates choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available opitions.
+#' @param Images If NULL (default) will search all record, if "yes" search the records that contain images of the specimen. Images will not be downloaded. For more options see Details.
 #' @param Synonyms Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR
 #' @param Typus Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No *no check*
 #' @param ShowEmptyValues Yes | *No*
@@ -47,11 +45,18 @@
 #'
 #' @return list
 #'
-#' @details For more information about fields see <https://api.splink.org.br/> or <http://www.splink.org.br/>.
+#' @details For more information about fields see <https://api.splink.org.br/> , <http://www.splink.org.br/> or <https://www.youtube.com/watch?v=I-4ftIWrKUA&feature=youtu.be>.
+#'
 #' Nos campos **buscadores** são aceitos valores 'embranco' ou 'naobranco'. Por exemplo: é possível buscar apenas os registros de um gênero que não tenha sido identificado ainda, para isso deve-se informar no campo `ScientificName` "Manilkara embranco" (para o gênero Manilkara). Em caso de querer apenas os registros de um gênero que tenha identificação deve-se informar "Manilkara naobranco". No caso de querer todos os registros de um gênero, basta colocar "Manilkara".
+#' "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
+#'
+#' Coordinates have
 #' Coordinates:  Yes | No | Original | Automatic | Blocked	  no check.
-#' The complete list of barcode e etc are available with `xxx()` (not implemented yet) function.
+#'
+#' The complete list of barcode e etc are available with `fields_data()` (not implemented yet) function.
+#'
 #' Attention, because the `MaxRecords` refers to the total number of records, in case of searching for more than one species it may be that records of only one species are returned. This depends on the number of records per species and the maximum number of records requested.
+#'
 #' To the Images argument, the options are "yes" for records with images, "no" for records without images, "live" for records with images of living material, "pollen" for records with images of pollen, "wood" for images of wood (Xylotheque) and NULL to search all records.
 #'
 #' @importFrom plyr compact
@@ -69,7 +74,6 @@
 #' @export
 setup_list <- function(Barcode = NULL,
                        BasisOfRecord = NULL,
-                       InstitutionCode = NULL,
                        CollectionCode = NULL,
                        CatalogNumber = NULL,
                        Collector = NULL,

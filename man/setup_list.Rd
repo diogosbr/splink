@@ -2,12 +2,11 @@
 % Please edit documentation in R/setup_list.R
 \name{setup_list}
 \alias{setup_list}
-\title{criar lista de espécies}
+\title{Create a list object to request download of species register}
 \usage{
 setup_list(
   Barcode = NULL,
   BasisOfRecord = NULL,
-  InstitutionCode = NULL,
   CollectionCode = NULL,
   CatalogNumber = NULL,
   Collector = NULL,
@@ -45,49 +44,47 @@ setup_list(
 )
 }
 \arguments{
-\item{Barcode}{.}
+\item{Barcode}{Barcode of specimen in a collection}
 
 \item{BasisOfRecord}{.}
 
-\item{InstitutionCode}{Accepts institution acronym. Ex: "UNICAMP", "Fiocruz".}
+\item{CollectionCode}{Collection acronym to search. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".}
 
-\item{CollectionCode}{string. collection acronym. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".}
+\item{CatalogNumber}{Register number of specimen in the collection.}
 
-\item{CatalogNumber}{numeric.     Number of specimen in the collection. Also accepts 'embranco' or "naobranco". "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.}
+\item{Collector}{Collector name. Ex:    "Kock", "Almeida F".}
 
-\item{Collector}{string. Collector name. Ex:    "Kock", "Almeida F".}
+\item{CollectorNumber}{Collector number.}
 
-\item{CollectorNumber}{numeric.}
+\item{YearCollected}{Year of specimen was collected with four-digits.}
 
-\item{YearCollected}{numeric. Year of specimen was collected with four-digits.}
+\item{IdentifiedBy}{Who identified the species of specimen. Ex: "Abreu MC".}
 
-\item{IdentifiedBy}{string. Who identified the species of specimen. Ex: "Abreu MC"}
+\item{YearIdentified}{Year of specimen was identified with four-digits.}
 
-\item{YearIdentified}{numeric. Year of specimen was identified with four-digits.}
+\item{Kingdom}{Kingdom classification name.}
 
-\item{Kingdom}{.}
+\item{Phylum}{Phylum classification name.}
 
-\item{Phylum}{.}
+\item{Class}{Class classification name.}
 
-\item{Class}{.}
+\item{Order}{Order classification name.}
 
-\item{Order}{.}
+\item{Family}{Family classification name.}
 
-\item{Family}{.}
+\item{Genus}{Genus classification name.}
 
-\item{Genus}{.}
-
-\item{ScientificName}{vector. Accepts a vector of names.}
+\item{ScientificName}{A character vector with scientific name, without authors. Accepts a vector of names. If you want include synonym taxa use \code{Synonyms} argument. See details to use 'embranco' or "naobranco" options.}
 
 \item{TypeStatus}{.}
 
-\item{Country}{.}
+\item{Country}{Country of specimen register.}
 
-\item{StateProvince}{.}
+\item{StateProvince}{State of specimen register.}
 
-\item{County}{.}
+\item{County}{City of specimen register.}
 
-\item{Locality}{.}
+\item{Locality}{Locality of specimen register. This field is very dificult to return with precision because it is a free form field.}
 
 \item{CoordinatesQuality}{Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.}
 
@@ -95,21 +92,20 @@ setup_list(
 
 \item{Separator}{especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?}
 
-\item{MaxRecords}{numeric. Especificar o número máximo de registros geral devem ser retornados. O default é retornar todos os registros. See details for more information
-criar um check para n > 0.     all records}
+\item{MaxRecords}{numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.}
 
-\item{Model}{DwC | modelling}
+\item{Model}{Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)}
 
-\item{Phonetic}{Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em \code{filo}, \code{classe}, \code{ordem}, \code{família} e \verb{nome científico}.
+\item{Phonetic}{Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em \code{Phylum}, \code{Class}, \code{Order}, \code{Family} e \code{ScientificName}.
 Yes | No      affects only taxonomic fields: class, phylum, order, family, genus, scientificname}
 
 \item{RedList}{Yes | No      no check}
 
-\item{Scope}{plants, animals, microrganisms,fossils     all groups}
+\item{Scope}{Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).}
 
-\item{Coordinates}{choose if will to do download the registers with coordinates. See details for available opitions.}
+\item{Coordinates}{choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available opitions.}
 
-\item{Images}{If "yes", search the records that contain images of the specimen. Or NULL to search all record. For more options see Details.}
+\item{Images}{If NULL (default) will search all record, if "yes" search the records that contain images of the specimen. Images will not be downloaded. For more options see Details.}
 
 \item{Synonyms}{Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR}
 
@@ -125,14 +121,21 @@ Yes | No      affects only taxonomic fields: class, phylum, order, family, genus
 list
 }
 \description{
-cria uma lista para busca
+This function prepare a list to request download of species register with the \code{get_data} function.
 }
 \details{
-For more information about fields see \url{https://api.splink.org.br/} or \url{http://www.splink.org.br/}.
+For more information about fields see \url{https://api.splink.org.br/} , \url{http://www.splink.org.br/} or \url{https://www.youtube.com/watch?v=I-4ftIWrKUA&feature=youtu.be}.
+
 Nos campos \strong{buscadores} são aceitos valores 'embranco' ou 'naobranco'. Por exemplo: é possível buscar apenas os registros de um gênero que não tenha sido identificado ainda, para isso deve-se informar no campo \code{ScientificName} "Manilkara embranco" (para o gênero Manilkara). Em caso de querer apenas os registros de um gênero que tenha identificação deve-se informar "Manilkara naobranco". No caso de querer todos os registros de um gênero, basta colocar "Manilkara".
+"embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
+
+Coordinates have
 Coordinates:  Yes | No | Original | Automatic | Blocked	  no check.
-The complete list of barcode e etc are available with \code{xxx()} (not implemented yet) function.
+
+The complete list of barcode e etc are available with \code{fields_data()} (not implemented yet) function.
+
 Attention, because the \code{MaxRecords} refers to the total number of records, in case of searching for more than one species it may be that records of only one species are returned. This depends on the number of records per species and the maximum number of records requested.
+
 To the Images argument, the options are "yes" for records with images, "no" for records without images, "live" for records with images of living material, "pollen" for records with images of pollen, "wood" for images of wood (Xylotheque) and NULL to search all records.
 }
 \examples{

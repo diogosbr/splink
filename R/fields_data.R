@@ -15,7 +15,6 @@ fields_data <- function(){
     data.frame(
       field = c("Barcode",
                 "BasisOfRecord",
-                "InstitutionCode",
                 "CollectionCode",
                 "CatalogNumber",
                 "Collector",
@@ -51,9 +50,9 @@ fields_data <- function(){
                 "ShowEmptyValues",
                 "fieldsCase",
                 "Summary"),
-      class = c(rep("character", 22),
+      class = c(rep("character", 21),
                 rep("numeric", 15)),
-      type = c(rep("searchable", 22),
+      type = c(rep("searchable", 21),
                rep("modifier", 15))
     )
 

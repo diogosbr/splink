@@ -2,21 +2,21 @@
 % Please edit documentation in R/get_data.R
 \name{get_data}
 \alias{get_data}
-\title{download dos dados}
+\title{Search for speciesLink registers}
 \usage{
 get_data(list_data)
 }
 \arguments{
-\item{list_data}{list. Object returned by \code{setup_list()}, or a named list with parameters to request download.}
+\item{list_data}{list. Object returned by \code{setup_list()}, or a named list with parameters to request download. To see the accepted parameters see type fields_data().}
 }
 \value{
-list
+data.frame containing the records based on the request.
 }
 \description{
-faz download dos dados do splink com base na requisição
+Search for speciesLink registers based on the list.
 }
 \details{
-https://api.splink.org.br/
+This function is absed on CRIA speciesLink API v.0.1 beta, for more details see \url{https://api.splink.org.br/}.
 }
 \examples{
 get_data(list_data = list(Scientificname = c("Manilkara maxima"),
