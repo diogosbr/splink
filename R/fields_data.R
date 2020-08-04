@@ -53,7 +53,8 @@ fields_data <- function(){
       class = c(rep("character", 21),
                 rep("numeric", 15)),
       type = c(rep("searchable", 21),
-               rep("modifier", 15))
+               rep("modifier", 15)),
+      stringsAsFactors = FALSE
     )
 
   return(res_data_frame)

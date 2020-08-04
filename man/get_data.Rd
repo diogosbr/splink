@@ -16,10 +16,10 @@ data.frame containing the records based on the request.
 Search for speciesLink registers based on the list.
 }
 \details{
-This function is absed on CRIA speciesLink API v.0.1 beta, for more details see \url{https://api.splink.org.br/}.
+This function is based on CRIA speciesLink API v.0.1 beta, for more details see \url{https://api.splink.org.br/}.
 }
 \examples{
-get_data(list_data = list(Scientificname = c("Manilkara maxima"),
+get_data(list_data = list(ScientificName = c("Manilkara maxima"),
                           MaxRecords = 5))
 \dontrun{
 get_data(list_data = list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),

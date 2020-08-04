@@ -26,9 +26,7 @@ setup_list(
   StateProvince = NULL,
   County = NULL,
   Locality = NULL,
-  CoordinatesQuality = "any",
-  Format = NULL,
-  Separator = NULL,
+  CoordinatesQuality = NULL,
   MaxRecords = NULL,
   Model = NULL,
   Phonetic = NULL,
@@ -86,11 +84,7 @@ setup_list(
 
 \item{Locality}{Locality of specimen register. This field is very dificult to return with precision because it is a free form field.}
 
-\item{CoordinatesQuality}{Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e "any" (default) retorna coordenadas com qualquer qualidade.}
-
-\item{Format}{JSON | XML | CSV | TAB ## MANTER?}
-
-\item{Separator}{especifica qual o seprador de colunas "comma" (default) ou semicolon. Este argumento é valid only for Format = CSV. ## MANTER?}
+\item{CoordinatesQuality}{Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e NULL (default) retorna coordenadas com qualquer qualidade.}
 
 \item{MaxRecords}{numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.}
 

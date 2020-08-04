@@ -6,14 +6,14 @@
 #'
 #' @param list_data list. Object returned by `setup_list()`, or a named list with parameters to request download. To see the accepted parameters see type fields_data().
 #'
-#' @details This function is absed on CRIA speciesLink API v.0.1 beta, for more details see <https://api.splink.org.br/>.
+#' @details This function is based on CRIA speciesLink API v.0.1 beta, for more details see <https://api.splink.org.br/>.
 #'
 #' @return data.frame containing the records based on the request.
 #'
 #' @importFrom httr VERB progress
 #'
 #' @examples
-#' get_data(list_data = list(Scientificname = c("Manilkara maxima"),
+#' get_data(list_data = list(ScientificName = c("Manilkara maxima"),
 #'                           MaxRecords = 5))
 #' \dontrun{
 #' get_data(list_data = list(ScientificName = c("Rauvolfia sellowii", "Cantinoa althaeifolia"),
@@ -31,7 +31,7 @@ get_data <- function(list_data){
   # check list_data format
   if(!is.list(list_data)){stop("The list_data must be a list.")}
   # check list_data names
-  if(!any(names(list_data) %in% fields_data()$field)){stop("The names of list_data are invalid.")}
+  if(!all(tolower(names(list_data)) %in% tolower(fields_data()$field))){stop("One or more names of list_data are invalid.")}
 
   # check if MaxRecords is > 0
   if(!is.null(list_data$MaxRecords)){
@@ -51,6 +51,10 @@ get_data <- function(list_data){
   ################################
   # incluir salvar um metadado   #
   # pode ser a partir do get_rec #
+
+  # get_rec$headers
+  # get_rec$date
+
   ################################
 
   # convert response object to text
