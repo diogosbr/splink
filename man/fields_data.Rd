@@ -2,7 +2,7 @@
 % Please edit documentation in R/fields_data.R
 \name{fields_data}
 \alias{fields_data}
-\title{Types of searchable fields}
+\title{Types of acceptable fields for splink searching}
 \usage{
 fields_data()
 }
@@ -10,8 +10,8 @@ fields_data()
 data.frame with fields of setup_list
 }
 \description{
-searchable fields
+Types of acceptable fields for splink searching
 }
 \details{
-fields_data returns a matrix of the searchable fields that are supported.
+fields_data returns a data.frame of the fields that are supported and the respective types. Searchable are free fields and the modifiers are close fields to modify one or more specific searchable field.
 }

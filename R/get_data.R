@@ -11,7 +11,6 @@
 #' @return data.frame containing the records based on the request.
 #'
 #' @importFrom httr VERB progress
-#' @importFrom utils read.table
 #'
 #' @examples
 #' get_data(list_data = list(Scientificname = c("Manilkara maxima"),
@@ -31,11 +30,15 @@ get_data <- function(list_data){
 
   # check list_data format
   if(!is.list(list_data)){stop("The list_data must be a list.")}
+  # check list_data names
+  if(!any(names(list_data) %in% fields_data()$field)){stop("The names of list_data are invalid.")}
 
   # check if MaxRecords is > 0
   if(!is.null(list_data$MaxRecords)){
-    if(list_data$MaxRecords <= 0) stop("MaxRecords values is not valid, inform a value > 0. ")
-    }
+    if(list_data$MaxRecords <= 0) stop("MaxRecords values is not valid, inform a value > 0. ")}
+
+  list_data$Format <- "CSV"
+
   # download splink data
   get_rec <-
     httr::VERB(
@@ -51,20 +54,12 @@ get_data <- function(list_data){
   ################################
 
   # convert response object to text
-  get_text <- httr::content(get_rec, "text")
+  res_table <- httr::content(get_rec, "parsed")
 
   # check if exists downloaded data
-  if(substring(get_rec,1,3) != 'seq'){
-    stop("You search returned no data. Check your list.")}
-
-  # caracteres que podem causar erro na leitura
-  bad_character <- intToUtf8(c(91, 62, 33, 180, 60, 35, 63, 38, 47, 92, 46, 93))
-
-  # retirando os caracteres que podem causar erro na leitura
-  get_text <- gsub(x = get_text, pattern = bad_character, replacement = "")
-
-  # convert the text to table
-  res_table <- read.table(text = get_text, sep = '\t', header = TRUE, quote = "", stringsAsFactors = F)
+  if(class(res_table)[1] == "xml_document"){
+    stop("You search returned no data. Check your list.",
+         "If you are sure that your list is correct and the error still remains, please report it to the package developer.")}
 
   return(res_table)
 }
