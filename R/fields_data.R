@@ -36,8 +36,6 @@ fields_data <- function(){
                 "Locality",
                 # modifiers:
                 "CoordinatesQuality",
-                "Format",
-                "Separator",
                 "MaxRecords",
                 "Model",
                 "Phonetic",
@@ -48,12 +46,11 @@ fields_data <- function(){
                 "Synonyms",
                 "Typus",
                 "ShowEmptyValues",
-                "fieldsCase",
                 "Summary"),
       class = c(rep("character", 21),
-                rep("numeric", 15)),
+                rep("numeric", 12)),
       type = c(rep("searchable", 21),
-               rep("modifier", 15)),
+               rep("modifier", 12)),
       stringsAsFactors = FALSE
     )
 

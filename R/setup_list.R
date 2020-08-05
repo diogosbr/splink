@@ -29,7 +29,7 @@
 #' @param CoordinatesQuality Refere-se à qualidade das coordenadas. "Good" são registros que tiveram as coordenadas checadas, "Bad" não tiveram as coordenadas checadas e NULL (default) retorna coordenadas com qualquer qualidade.
 #' @param MaxRecords numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.
 #' @param Model Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)
-#' @param Phonetic Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `Phylum`, `Class`, `Order`, `Family` e `ScientificName`.
+#' @param Phonetic Logical. Permite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `Phylum`, `Class`, `Order`, `Family` e `ScientificName`.
 #'  Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
 #' @param RedList Yes | No	  no check
 #' @param Scope Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).
@@ -38,7 +38,6 @@
 #' @param Synonyms Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR
 #' @param Typus Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No *no check*
 #' @param ShowEmptyValues Yes | *No*
-#' @param fieldsCase Lower | Upper | *Mixed*
 #' @param Summary Yes | *No*
 #'
 #' @return list
@@ -96,7 +95,7 @@ setup_list <- function(Barcode = NULL,
                        CoordinatesQuality = NULL,
                        MaxRecords = NULL,
                        Model = NULL,
-                       Phonetic = NULL,
+                       Phonetic = FALSE,
                        RedList = NULL,
                        Scope = NULL,
                        Coordinates = NULL,
@@ -104,7 +103,6 @@ setup_list <- function(Barcode = NULL,
                        Synonyms = NULL,
                        Typus = NULL,
                        ShowEmptyValues = NULL,
-                       fieldsCase = NULL,
                        Summary = NULL
 ){
 
@@ -156,7 +154,7 @@ setup_list <- function(Barcode = NULL,
   if(!is.null(CoordinatesQuality)) CoordinatesQuality = CoordinatesQuality
   if(!is.null(MaxRecords)) MaxRecords = MaxRecords
   if(!is.null(Model)) Model = Model
-  if(!is.null(Phonetic)) Phonetic = Phonetic
+  if(Phonetic) Phonetic = Phonetic
   if(!is.null(RedList)) RedList = RedList
   if(!is.null(Scope)) Scope = Scope
   if(!is.null(Coordinates)) Coordinates = Coordinates
@@ -165,7 +163,6 @@ setup_list <- function(Barcode = NULL,
   if(!is.null(Typus)) Typus = Typus
   if(!is.null(RedList)) RedList = RedList
   if(!is.null(ShowEmptyValues)) ShowEmptyValues = ShowEmptyValues
-  if(!is.null(fieldsCase)) fieldsCase = fieldsCase
   if(!is.null(Summary)) Summary = Summary
 
 
@@ -195,8 +192,6 @@ setup_list <- function(Barcode = NULL,
     Locality = Locality,
 
     CoordinatesQuality = CoordinatesQuality,
-    Format = Format,
-    Separator = Separator,
     MaxRecords = MaxRecords,
     Model = Model,
     Phonetic = Phonetic,
@@ -208,7 +203,6 @@ setup_list <- function(Barcode = NULL,
     Typus = Typus,
     RedList = RedList,
     ShowEmptyValues = ShowEmptyValues,
-    fieldsCase = fieldsCase,
     Summary = Summary
   )
 

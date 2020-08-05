@@ -29,7 +29,7 @@ setup_list(
   CoordinatesQuality = NULL,
   MaxRecords = NULL,
   Model = NULL,
-  Phonetic = NULL,
+  Phonetic = FALSE,
   RedList = NULL,
   Scope = NULL,
   Coordinates = NULL,
@@ -37,7 +37,6 @@ setup_list(
   Synonyms = NULL,
   Typus = NULL,
   ShowEmptyValues = NULL,
-  fieldsCase = NULL,
   Summary = NULL
 )
 }
@@ -90,7 +89,7 @@ setup_list(
 
 \item{Model}{Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)}
 
-\item{Phonetic}{Premite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em \code{Phylum}, \code{Class}, \code{Order}, \code{Family} e \code{ScientificName}.
+\item{Phonetic}{Logical. Permite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em \code{Phylum}, \code{Class}, \code{Order}, \code{Family} e \code{ScientificName}.
 Yes | No      affects only taxonomic fields: class, phylum, order, family, genus, scientificname}
 
 \item{RedList}{Yes | No      no check}
@@ -106,8 +105,6 @@ Yes | No      affects only taxonomic fields: class, phylum, order, family, genus
 \item{Typus}{Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No \emph{no check}}
 
 \item{ShowEmptyValues}{Yes | \emph{No}}
-
-\item{fieldsCase}{Lower | Upper | \emph{Mixed}}
 
 \item{Summary}{Yes | \emph{No}}
 }

@@ -4,10 +4,12 @@
 \alias{get_data}
 \title{Search for speciesLink registers}
 \usage{
-get_data(list_data)
+get_data(list_data, filename = NULL)
 }
 \arguments{
 \item{list_data}{list. Object returned by \code{setup_list()}, or a named list with parameters to request download. To see the accepted parameters see type fields_data().}
+
+\item{filename}{Output filename. If is NULL (default) only returns a tibble.}
 }
 \value{
 data.frame containing the records based on the request.

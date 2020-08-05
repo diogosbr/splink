@@ -5,6 +5,7 @@
 #' @description Search for speciesLink registers based on the list.
 #'
 #' @param list_data list. Object returned by `setup_list()`, or a named list with parameters to request download. To see the accepted parameters see type fields_data().
+#' @param filename Output filename. If is NULL (default) only returns a tibble.
 #'
 #' @details This function is based on CRIA speciesLink API v.0.1 beta, for more details see <https://api.splink.org.br/>.
 #'
@@ -23,7 +24,7 @@
 #'                           }
 #'
 #' @export
-get_data <- function(list_data){
+get_data <- function(list_data, filename = NULL){
 
   # link to speciesLink API
   url <- "https://api.splink.org.br/records"
@@ -35,7 +36,7 @@ get_data <- function(list_data){
 
   # check if MaxRecords is > 0
   if(!is.null(list_data$MaxRecords)){
-    if(list_data$MaxRecords <= 0) stop("MaxRecords values is not valid, inform a value > 0. ")}
+    if(list_data$MaxRecords <= 0) stop("MaxRecords values is not valid, inform a value > 0.")}
 
   list_data$Format <- "CSV"
 
@@ -48,15 +49,6 @@ get_data <- function(list_data){
       config = httr::progress()
     )
 
-  ################################
-  # incluir salvar um metadado   #
-  # pode ser a partir do get_rec #
-
-  # get_rec$headers
-  # get_rec$date
-
-  ################################
-
   # convert response object to text
   res_table <- httr::content(get_rec, "parsed")
 
@@ -64,6 +56,10 @@ get_data <- function(list_data){
   if(class(res_table)[1] == "xml_document"){
     stop("You search returned no data. Check your list.",
          "If you are sure that your list is correct and the error still remains, please report it to the package developer.")}
+
+  if(!is.null(filename)) {utils::write.csv(res_table, file = paste0(filename), row.names = FALSE)}
+
+  message("Downloaded at ", get_rec$headers$date)
 
   return(res_table)
 }
