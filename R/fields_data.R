@@ -35,7 +35,6 @@ fields_data <- function(){
                 "County",
                 "Locality",
                 # modifiers:
-                "CoordinatesQuality",
                 "MaxRecords",
                 "Model",
                 "Phonetic",
@@ -48,9 +47,9 @@ fields_data <- function(){
                 "ShowEmptyValues",
                 "Summary"),
       class = c(rep("character", 21),
-                rep("numeric", 12)),
+                rep("numeric", 11)),
       type = c(rep("searchable", 21),
-               rep("modifier", 12)),
+               rep("modifier", 11)),
       stringsAsFactors = FALSE
     )
 
