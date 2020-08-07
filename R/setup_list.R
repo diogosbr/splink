@@ -4,13 +4,13 @@
 #'
 #' @description This function prepare a list to request download of species register with the `get_data` function.
 #'
-#' @param Barcode Barcode of specimen in a collection
-#' @param BasisOfRecord .
+#' @param Barcode Barcode of specimen in a collection. Ex: NY00000001 or FPS00257.
+#' @param BasisOfRecord Values accepted: 'PreservedSpecimen' , 'LivingSpecimen', 'FossilSpecimen', 'HumanObservation', 'MachineObservation' or 'MaterialSample'.
 #' @param CollectionCode Collection acronym to search. Ex: "FIOCRUZ-CEIOC", "UEC", "HUEFS".
 #' @param CatalogNumber Register number of specimen in the collection.
 #' @param Collector Collector name. Ex:	"Kock", "Almeida F".
 #' @param CollectorNumber Collector number.
-#' @param YearCollected Year of specimen was collected with four-digits.
+#' @param YearCollected Year of specimen was collected with four-digits. Accepts a vector.
 #' @param IdentifiedBy Who identified the species of specimen. Ex: "Abreu MC".
 #' @param YearIdentified Year of specimen was identified with four-digits.
 #' @param Kingdom Kingdom classification name.
@@ -27,29 +27,38 @@
 #' @param Locality Locality of specimen register. This field is very dificult to return with precision because it is a free form field.
 #'
 #' @param MaxRecords numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.
-#' @param Model Escolhe o tamanho dos dados que se quer baixar (DwC | modelling)
-#' @param Phonetic Logical. Permite uma busca fonética. Ou seja, permite que o sistema ignore algumas diferenças de grafia em nomes científicos. Por exemplo: I ou Y e letras duplas. Este argumento afeta apenas as buscas em `Phylum`, `Class`, `Order`, `Family` e `ScientificName`.
-#'  Yes | No	  affects only taxonomic fields: class, phylum, order, family, genus, scientificname
-#' @param RedList Yes | No	  no check
+#' @param all.data Logical. Output all data or coordinates only. FALSE is default.
+#' @param Phonetic Logical. If TRUE, allows the system to ignore some spelling differences in scientific names like 'Y' or 'I', double letters, etc. Affects only taxonomic fields `Phylum`, `Class`, `Order`, `Family` e `ScientificName`. FALSE is default.
+#' @param RedList Searches for records with scientific names that appear in red list of MMA if 'yes' or it that not appear in red list of MMA if 'no'. To return any records the values is NULL (default).
 #' @param Scope Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).
-#' @param Coordinates choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available opitions.
-#' @param Images If NULL (default) will search all record, if "yes" search the records that contain images of the specimen. Images will not be downloaded. For more options see Details.
-#' @param Synonyms Procura também por sinônimos definidos em alguns dicionários. Os valores aceitos são "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" e/ou NULL (default) caso não queira realizar busca de sinônimos. Para mais infromações, veja a seção detalhes. ## IMPLEMENTAR
-#' @param Typus Se TRUE, seleciona apenas registros que sejam tipos nomenclaturais. FALSE retorna apenas registros que não são tipos nomemclaturais. NULL é o default e retorna independente de ser tipo. ## Yes | No *no check*
-#' @param ShowEmptyValues Yes | *No*
-#' @param Summary Yes | *No*
+#' @param Coordinates Choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available options.
+#' @param Images If NULL (default) will search all record. If "yes" search the records that contain images of the specimen and 'no' will return only records without images. Images will not be downloaded. For more options see Details.
+#' @param Synonyms Search also for synonyms defined in the following dictionaries: "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" and/or NULL (default) if you don't want to search for synonyms.
+#' @param Typus If 'yes' searches for type material only. If 'no', searches non type material only. Default is NULL and does no check type material.
 #'
-#' @return list
+#' @return A list with parameters to use in `get_data()` function to download records.
 #'
-#' @details For more information about fields see <https://api.splink.org.br/> , <http://www.splink.org.br/> or <https://www.youtube.com/watch?v=I-4ftIWrKUA&feature=youtu.be>.
+#' @details For more information about fields see <https://api.splink.org.br/> , <http://www.splink.org.br/> , <https://www.youtube.com/watch?v=I-4ftIWrKUA&feature=youtu.be> or <http://www.splink.org.br/showTips>.
+#'
+#'The search system is case insensitive, meaning that searching for Tabeuia aurea is the same as searching for tabebuia aurea or TABEBUIA AUREA.
+#'
+#'Accents are also not considered, meaning searching for São Paulo is the same as searching for Sao Paulo.
+#'
+#'Avoid using words such as de, do, em, the, etc. For example when searching for species that occur in Serra da Canastra, search for Serra Canastra or just Canastra within the locality field.
+#'
+#'In general, all words included in the form are considered when searching. Searching for Souza Silva in the collector’s field will retrieve all records that have the words Souza AND Silva simultaneously in that field.
+#'
+#'**Besides the connector |, users may search for a list of species – one in each line – with a maximum limit of 50 names.**
+#'
+#'Users can also search for blank fields, by typing the word null in the field. For example, to search for unidentified material of the family Asteraceae, users must type Asteraceae in the family field and null in the scientific name field. Also for Asteracea, if you want to see what genera of the Asteraceae family have unidentified material, you may type notnull null in the scientific name field. The words null and notnull can be used in other fields.
+#'
+#'The words 'null' and 'notnull' can also be used in the scientific name field. It is important to remember that the scientific name can be a genus (a single word), a binomial (genus + species) or a trinomial (genus + species + subspecies). The words 'null' and 'notnull' can replace any of these elements. For example: to search for records that have identification only up to the gender level, type 'notnull null' in the scientific name field.
 #'
 #' Nos campos **buscadores** são aceitos valores 'embranco' ou 'naobranco'. Por exemplo: é possível buscar apenas os registros de um gênero que não tenha sido identificado ainda, para isso deve-se informar no campo `ScientificName` "Manilkara embranco" (para o gênero Manilkara). Em caso de querer apenas os registros de um gênero que tenha identificação deve-se informar "Manilkara naobranco". No caso de querer todos os registros de um gênero, basta colocar "Manilkara".
-#' "embranco" returns only specimens without catalog number and "naobranco" resturns only specimens with catalog number.
 #'
-#' Coordinates have
 #' Coordinates:  Yes | No | Original | Automatic | Blocked	  no check.
 #'
-#' The complete list of barcode e etc are available with `fields_data()` (not implemented yet) function.
+#' The complete list of searchable and modifiers fields are available with `fields_data()` (not implemented yet) function.
 #'
 #' Attention, because the `MaxRecords` refers to the total number of records, in case of searching for more than one species it may be that records of only one species are returned. This depends on the number of records per species and the maximum number of records requested.
 #'
@@ -92,16 +101,14 @@ setup_list <- function(Barcode = NULL,
 
                        # modifiers
                        MaxRecords = NULL,
-                       Model = NULL,
+                       all.data = FALSE,
                        Phonetic = FALSE,
                        RedList = NULL,
                        Scope = NULL,
                        Coordinates = NULL,
                        Images = NULL,
                        Synonyms = NULL,
-                       Typus = NULL,
-                       ShowEmptyValues = NULL,
-                       Summary = NULL
+                       Typus = NULL
 ){
 
   ## IMPLEMENTAR CHECKS ##
@@ -140,8 +147,8 @@ setup_list <- function(Barcode = NULL,
   ##===========##
 
   if(!is.null(MaxRecords)) MaxRecords = MaxRecords
-  if(!is.null(Model)) Model = Model
-  if(Phonetic) Phonetic = Phonetic
+  if(all.data) {Model = "DwC"} else {Model = "coords"}
+  if(Phonetic) {Phonetic = "yes"} else {Phonetic = "no"}
   if(!is.null(RedList)) RedList = RedList
   if(!is.null(Scope)) Scope = Scope
   if(!is.null(Coordinates)) Coordinates = Coordinates
@@ -149,8 +156,6 @@ setup_list <- function(Barcode = NULL,
   if(!is.null(Synonyms)) Synonyms = Synonyms
   if(!is.null(Typus)) Typus = Typus
   if(!is.null(RedList)) RedList = RedList
-  if(!is.null(ShowEmptyValues)) ShowEmptyValues = ShowEmptyValues
-  if(!is.null(Summary)) Summary = Summary
 
 
   # creating the list to request data in the API
@@ -187,9 +192,7 @@ setup_list <- function(Barcode = NULL,
     Images = Images,
     Synonyms = Synonyms,
     Typus = Typus,
-    RedList = RedList,
-    ShowEmptyValues = ShowEmptyValues,
-    Summary = Summary
+    RedList = RedList
   )
 
   # removing values not used
