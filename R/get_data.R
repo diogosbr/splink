@@ -59,6 +59,7 @@ get_data <- function(list_data, filename = NULL){
 
   if(!is.null(filename)) {utils::write.csv(res_table, file = paste0(filename), row.names = FALSE)}
 
+  if(nrow(res_table) == 0) {warning("Your search returned no records.")}
   message("Downloaded at ", get_rec$headers$date)
 
   return(res_table)
