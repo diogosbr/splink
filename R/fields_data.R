@@ -43,13 +43,11 @@ fields_data <- function(){
                 "Coordinates",
                 "Images",
                 "Synonyms",
-                "Typus",
-                "ShowEmptyValues",
-                "Summary"),
+                "Typus"),
       class = c(rep("character", 21),
-                rep("numeric", 11)),
+                rep("numeric", 9)),
       type = c(rep("searchable", 21),
-               rep("modifier", 11)),
+               rep("modifier", 9)),
       stringsAsFactors = FALSE
     )
 
