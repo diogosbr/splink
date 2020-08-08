@@ -31,7 +31,7 @@
 #' @param Phonetic Logical. If TRUE, allows the system to ignore some spelling differences in scientific names like 'Y' or 'I', double letters, etc. Affects only taxonomic fields `Phylum`, `Class`, `Order`, `Family` e `ScientificName`. FALSE is default.
 #' @param RedList Searches for records with scientific names that appear in red list of MMA if 'yes' or it that not appear in red list of MMA if 'no'. To return any records the values is NULL (default).
 #' @param Scope Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).
-#' @param Coordinates Choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available options.
+#' @param Coordinates Choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available options. ('Yes' , 'No' , 'Original' , 'Automatic' , 'Blocked')
 #' @param Images If NULL (default) will search all record. If "yes" search the records that contain images of the specimen and 'no' will return only records without images. Images will not be downloaded. For more options see Details.
 #' @param Synonyms Search also for synonyms defined in the following dictionaries: "sp2000", "flora2020", "MycoBank", "AlgaeBase", "DSMZ", "Moure" and/or NULL (default) if you don't want to search for synonyms.
 #' @param Typus If 'yes' searches for type material only. If 'no', searches non type material only. Default is NULL and does no check type material.

@@ -90,7 +90,7 @@ setup_list(
 
 \item{Scope}{Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).}
 
-\item{Coordinates}{Choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available options.}
+\item{Coordinates}{Choose if will download the registers with coordinates. Default is all registers (with coordinates or not). See details for available options. ('Yes' , 'No' , 'Original' , 'Automatic' , 'Blocked')}
 
 \item{Images}{If NULL (default) will search all record. If "yes" search the records that contain images of the specimen and 'no' will return only records without images. Images will not be downloaded. For more options see Details.}
 

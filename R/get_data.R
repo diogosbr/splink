@@ -26,8 +26,14 @@
 #' @export
 get_data <- function(list_data, filename = NULL){
 
-  # link to speciesLink API
+  API <- "api.splink.org.br"
+
+  if(!pingr::is_online()) {stop("você precisa estar online para usar esta função. Verifique sua conexão com a internet.")}
+  if(!pingr::is_up(API)) {stop("CRIA speciesLink API v.0.1 beta are offline. Try again latter.")}
+
   url <- "https://api.splink.org.br/records"
+
+  # link to speciesLink API
 
   # check list_data format
   if(!is.list(list_data)){stop("The list_data must be a list.")}
@@ -41,21 +47,30 @@ get_data <- function(list_data, filename = NULL){
   list_data$Format <- "CSV"
 
   # download splink data
+  # get_rec <-
+  #   httr::VERB(
+  #     verb = "POST", url = url,
+  #     body = list_data,
+  #     encode = "json",
+  #     config = httr::progress()
+  #   )
   get_rec <-
-    httr::VERB(
-      verb = "POST", url = url,
+    httr::POST(
+      url = url,
       body = list_data,
       encode = "json",
       config = httr::progress()
     )
 
   # convert response object to text
-  res_table <- httr::content(get_rec, "parsed")
+  res_table <- httr::content(get_rec, "text")
 
   # check if exists downloaded data
-  if(class(res_table)[1] == "xml_document"){
+  if(substring(res_table,1,3) != 'seq'){
     stop("You search returned no data. Check your list.",
          "If you are sure that your list is correct and the error still remains, please report it to the package developer.")}
+
+  res_table <- readr::read_table2(res_table)
 
   if(!is.null(filename)) {utils::write.csv(res_table, file = paste0(filename), row.names = FALSE)}
 
