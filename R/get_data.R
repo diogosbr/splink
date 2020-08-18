@@ -44,7 +44,7 @@ get_data <- function(list_data, filename = NULL){
   if(!is.null(list_data$MaxRecords)){
     if(list_data$MaxRecords <= 0) stop("MaxRecords values is not valid, inform a value > 0.")}
 
-  list_data$Format <- "CSV"
+  #list_data$Format <- "CSV"
 
   # download splink data
   # get_rec <-
