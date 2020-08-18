@@ -70,7 +70,8 @@ get_data <- function(list_data, filename = NULL){
     stop("You search returned no data. Check your list.",
          "If you are sure that your list is correct and the error still remains, please report it to the package developer.")}
 
-  res_table <- readr::read_table2(res_table)
+  #res_table <- readr::read_table2(res_table)
+  res_table <-  read.table(text = res_table, sep = '\t', header = TRUE, quote = "", stringsAsFactors = F)
 
   if(!is.null(filename)) {utils::write.csv(res_table, file = paste0(filename), row.names = FALSE)}
 
