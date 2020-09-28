@@ -34,6 +34,7 @@ fields_data <- function(){
                 "StateProvince",
                 "County",
                 "Locality",
+                "Notes",
                 # modifiers:
                 "MaxRecords",
                 "Model",
@@ -44,9 +45,9 @@ fields_data <- function(){
                 "Images",
                 "Synonyms",
                 "Typus"),
-      class = c(rep("character", 21),
+      class = c(rep("character", 22),
                 rep("numeric", 9)),
-      type = c(rep("searchable", 21),
+      type = c(rep("searchable", 22),
                rep("modifier", 9)),
       stringsAsFactors = FALSE
     )

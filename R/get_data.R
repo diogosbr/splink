@@ -11,7 +11,9 @@
 #'
 #' @return data.frame containing the records based on the request.
 #'
-#' @importFrom httr VERB progress
+#' @importFrom httr VERB progress POST
+#' @importFrom pingr is_online is_up
+#' @importFrom readr read_table2
 #'
 #' @examples
 #' get_data(list_data = list(ScientificName = c("Manilkara maxima"),
@@ -70,8 +72,8 @@ get_data <- function(list_data, filename = NULL){
     stop("You search returned no data. Check your list.",
          "If you are sure that your list is correct and the error still remains, please report it to the package developer.")}
 
-  #res_table <- readr::read_table2(res_table)
-  res_table <-  read.table(text = res_table, sep = '\t', header = TRUE, quote = "", stringsAsFactors = F)
+  res_table <- readr::read_table2(res_table)
+  #res_table <-  read.table(text = res_table, sep = '\t', header = TRUE, quote = "", stringsAsFactors = F)
 
   if(!is.null(filename)) {utils::write.csv(res_table, file = paste0(filename), row.names = FALSE)}
 

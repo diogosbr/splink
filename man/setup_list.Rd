@@ -5,6 +5,7 @@
 \title{Create a list object to request download of species register}
 \usage{
 setup_list(
+  ScientificName = NULL,
   Barcode = NULL,
   BasisOfRecord = NULL,
   CollectionCode = NULL,
@@ -20,15 +21,15 @@ setup_list(
   Order = NULL,
   Family = NULL,
   Genus = NULL,
-  ScientificName = NULL,
   TypeStatus = NULL,
   Country = NULL,
   StateProvince = NULL,
   County = NULL,
   Locality = NULL,
+  Notes = NULL,
   MaxRecords = NULL,
-  all.data = FALSE,
-  Phonetic = FALSE,
+  Model = NULL,
+  Phonetic = NULL,
   RedList = NULL,
   Scope = NULL,
   Coordinates = NULL,
@@ -38,6 +39,8 @@ setup_list(
 )
 }
 \arguments{
+\item{ScientificName}{A character vector with scientific name, without authors. Accepts a vector of names. If you want include synonym taxa use \code{Synonyms} argument. See details to use 'embranco' or "naobranco" options.}
+
 \item{Barcode}{Barcode of specimen in a collection. Ex: NY00000001 or FPS00257.}
 
 \item{BasisOfRecord}{Values accepted: 'PreservedSpecimen' , 'LivingSpecimen', 'FossilSpecimen', 'HumanObservation', 'MachineObservation' or 'MaterialSample'.}
@@ -68,8 +71,6 @@ setup_list(
 
 \item{Genus}{Genus classification name.}
 
-\item{ScientificName}{A character vector with scientific name, without authors. Accepts a vector of names. If you want include synonym taxa use \code{Synonyms} argument. See details to use 'embranco' or "naobranco" options.}
-
 \item{TypeStatus}{.}
 
 \item{Country}{Country of specimen register.}
@@ -80,9 +81,11 @@ setup_list(
 
 \item{Locality}{Locality of specimen register. This field is very dificult to return with precision because it is a free form field.}
 
+\item{Notes}{String.}
+
 \item{MaxRecords}{numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.}
 
-\item{all.data}{Logical. Output all data or coordinates only. FALSE is default.}
+\item{Model}{String. "DwC" is default and will return all DwC records. "coords" will return coordinates only.}
 
 \item{Phonetic}{Logical. If TRUE, allows the system to ignore some spelling differences in scientific names like 'Y' or 'I', double letters, etc. Affects only taxonomic fields \code{Phylum}, \code{Class}, \code{Order}, \code{Family} e \code{ScientificName}. FALSE is default.}
 

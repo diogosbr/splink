@@ -27,7 +27,8 @@
 #' @param Locality Locality of specimen register. This field is very dificult to return with precision because it is a free form field.
 #'
 #' @param MaxRecords numeric. The maximum number of general records to be returned. Default is to return all records. See details for more information.
-#' @param all.data Logical. Output all data or coordinates only. FALSE is default.
+#' @param Notes String.
+#' @param Model String. "DwC" is default and will return all DwC records. "coords" will return coordinates only.
 #' @param Phonetic Logical. If TRUE, allows the system to ignore some spelling differences in scientific names like 'Y' or 'I', double letters, etc. Affects only taxonomic fields `Phylum`, `Class`, `Order`, `Family` e `ScientificName`. FALSE is default.
 #' @param RedList Searches for records with scientific names that appear in red list of MMA if 'yes' or it that not appear in red list of MMA if 'no'. To return any records the values is NULL (default).
 #' @param Scope Groups of organisms to search. The accepted values are "plants", "animals", "microrganisms" and "fossils". NULL to search in all groups (default).
@@ -77,7 +78,8 @@
 #'            }
 #'
 #' @export
-setup_list <- function(Barcode = NULL,
+setup_list <- function(ScientificName = NULL,
+                       Barcode = NULL,
                        BasisOfRecord = NULL,
                        CollectionCode = NULL,
                        CatalogNumber = NULL,
@@ -92,17 +94,16 @@ setup_list <- function(Barcode = NULL,
                        Order = NULL,
                        Family = NULL,
                        Genus = NULL,
-                       ScientificName = NULL,
                        TypeStatus = NULL,
                        Country = NULL,
                        StateProvince = NULL,
                        County = NULL,
                        Locality = NULL,
-
+                       Notes = NULL,
                        # modifiers
                        MaxRecords = NULL,
-                       all.data = FALSE,
-                       Phonetic = FALSE,
+                       Model = NULL,
+                       Phonetic = NULL,
                        RedList = NULL,
                        Scope = NULL,
                        Coordinates = NULL,
@@ -147,8 +148,8 @@ setup_list <- function(Barcode = NULL,
   ##===========##
 
   if(!is.null(MaxRecords)) MaxRecords = MaxRecords
-  if(all.data) {Model = "DwC"} else {Model = "coords"}
-  if(Phonetic) {Phonetic = "yes"} else {Phonetic = "no"}
+  if(!is.null(Model)) {Model = Model}
+  if(!is.null(Phonetic)) { if(Phonetic == T){Phonetic = "yes"} }
   if(!is.null(RedList)) RedList = RedList
   if(!is.null(Scope)) Scope = Scope
   if(!is.null(Coordinates)) Coordinates = Coordinates
@@ -198,6 +199,7 @@ setup_list <- function(Barcode = NULL,
   # removing values not used
   list_data <- plyr::compact(list_data)
 
+  if(length(list_data) == 0){stop("Please provide at least one search field. \n To more details see fields_data(). ")}
   return(list_data)
 }
 
